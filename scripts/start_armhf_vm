@@ -21,23 +21,15 @@ show_help() {
     echo "This script runs ISAR image in QEMU emulator."
     echo
     echo "Usage:"
-    echo "    start-isar-qemuarm [params] [BUILD_DIR]"
-    echo "BUILD_DIR is your ISAR build folder. If not set, current folder"
-    echo "is used."
+    printf '\t%s [params]\n' "${0##*/}"
     echo
     echo "Parameters:"
     echo "    --help        display this message and exit."
 }
 
-if [ "$#" == "1" -a "$1" == "--help" ]; then
+if [ $# -eq 1 ] && [ "$1" = "--help" ]; then
     show_help
     exit 0
 fi
 
-if [ "$#" == "0" ]; then
-    BUILD_DIR=$PWD
-else
-    BUILD_DIR=$1
-fi
-
-start_qemuarm $BUILD_DIR
+start_qemuarm
