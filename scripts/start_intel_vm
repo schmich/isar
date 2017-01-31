@@ -1,0 +1,34 @@
+#/bin/sh
+#
+# This software is a part of ISAR.
+# Copyright (C) 2015-2016 ilbers GmbH
+
+KERNEL="tmp/deploy/images/vmlinuz-3.16.0-4-686-pae"
+INITRD="tmp/deploy/images/initrd.img-3.16.0-4-686-pae"
+ROOTFS="tmp/deploy/images/isar-image-base-qemuintel.ext4.img"
+
+start_qemuintel() {
+    qemu-system-i386 \
+        -nographic -m 1024M -M pc \
+        -append 'console=ttyS0 root=/dev/sda rw' \
+        -kernel $KERNEL \
+        -initrd $INITRD \
+        -hda $ROOTFS
+}
+
+show_help() {
+    echo "This script runs ISAR image in QEMU emulator."
+    echo
+    echo "Usage:"
+    printf '\t%s [params]\n' "${0##*/}"
+    echo
+    echo "Parameters:"
+    echo "    --help        display this message and exit."
+}
+
+if [ $# -eq 1 ] && [ "$1" = "--help" ]; then
+    show_help
+    exit 0
+fi
+
+start_qemuintel
