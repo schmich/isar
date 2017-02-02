@@ -15,6 +15,13 @@ inherit image
 DEPENDS += "${IMAGE_INSTALL}"
 
 IMAGE_PREINSTALL += "apt \
+                     dash \
+                     bash \
+                     findutils \
+                     grep \
+                     sed \
+                     mount \
+                     systemd-sysv \
                      dbus"
 
 WORKDIR = "${TMPDIR}/work/${PN}/${MACHINE}"

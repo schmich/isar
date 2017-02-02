@@ -11,6 +11,11 @@ LIC_FILES_CHKSUM = "file://${LAYERDIR_isar}/licenses/COPYING.GPLv2;md5=751419260
 PV = "1.0"
 
 BUILDCHROOT_PREINSTALL ?= "gcc \
+                           dash \
+                           bash \
+                           coreutils \
+                           findutils \
+                           grep \
                            make \
                            build-essential \
                            debhelper \
