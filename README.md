@@ -5,7 +5,13 @@ generation of Debian-based root filesystems with customizations.
 
 # Build
 
-1. Install and configure sudo (see TODO):
+1. Install the necessary dependencies:
+
+        # apt-get install dosfstools git mtools multistrap parted python3 qemu qemu-user-static sudo
+
+   Note: Bitbake requires Python 3.4+ as well as a unicode capable locale
+
+1. Configure sudo (see TODO):
 
         # apt-get install sudo
         # visudo
@@ -26,18 +32,20 @@ generation of Debian-based root filesystems with customizations.
 
    Build isar base images for QEMU and RPi:
 
-        $ bitbake multiconfig:qemuarm:isar-image-base multiconfig:rpi:isar-image-base
+        $ bitbake multiconfig:qemuarm:isar-image-base multiconfig:qemuintel:isar-image-base multiconfig:rpi:isar-image-base
 
    Created images are:
 
         tmp/deploy/images/isar-image-base-qemuarm.ext4.img
+        tmp/deploy/images/isar-image-base-qemuintel.ext4.img
         tmp/deploy/images/isar-image-base.rpi-sdimg
 
 # Try
 
-To test the QEMU image, run the following command:
+To test the QEMU image, run one of the following commands, according to the platform compiled for previously:
 
         $ start_armhf_vm
+        $ start_intel_vm
 
 The default root password is 'root'.
 
