@@ -364,5 +364,10 @@ This approach prevents duplication of the license files in different packages.
  - `SRC_DIR` - The directory name where application sources will be unpacked. For `git` repositories, it should be set to `git`. Please check the BitBake user manual for supported download formats.
  - `SRC_REV` - Source code revision to fetch. Please check the BitBake user manual for supported download formats.
 
-The last line in the example above adds recipe to the Isar work chain.
+The last line in the example above adds recipe to the Isar work chain using inheritance on the `dpkg` class. Note that not all standard tasks usually available in a standard `yocto` distribution are availble,
+the `dpkg` for now only implements the following for custom package targets:
+ - `fetch`: download the archive containing the source code of the application
+ - `unpack`: extract the contents of the archive
+ - `build`: compile the application and generate a Debian package
+ - `install`: install the Debian package into the target system
 
