@@ -144,7 +144,7 @@ CONF_VERSION = "1"
 
 #
 # The default list of extra packages to be installed.
-IMAGE_INSTALL = "hello"
+IMAGE_INSTALL = "hello linux"
 
 #
 # Default parallel jobs for bitbake:
