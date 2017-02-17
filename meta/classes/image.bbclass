@@ -17,7 +17,7 @@ do_populate() {
         sudo mkdir -p ${S}/deb
 
         for p in ${IMAGE_INSTALL}; do
-            sudo cp ${DEPLOY_DIR_DEB}/${p}_*.deb ${S}/deb
+            sudo cp ${DEPLOY_DIR_DEB}/${p}*.deb ${S}/deb
         done
 
         sudo chroot ${S} /usr/bin/dpkg -i -R /deb
