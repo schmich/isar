@@ -43,10 +43,6 @@ export LC_ALL=C LANGUAGE=C LANG=C
 # Run pre installation scripts
 /var/lib/dpkg/info/dash.preinst install
 
-# Prevent removing of boot firmware
-/var/lib/dpkg/info/raspberrypi-bootloader-nokernel.preinst install
-rm /var/lib/dpkg/info/raspberrypi-bootloader-nokernel.postinst
-
 # Configuring packages
 dpkg --configure -a
 mount proc -t proc /proc
