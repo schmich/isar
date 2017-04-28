@@ -17,34 +17,55 @@ generation of Debian-based root filesystems with customizations.
    Replace <user> with your user name. Use the tab character between <user> and
    parameters.
 
-1. Initialize the build directory, e.g.:
+1. Initialize the build directory for the target architecture:
 
-        $ cd isar
-        $ . isar-init-build-env ../build
+        $ source isar-init-build-env build-amd64
+        $ bitbake multiconfig:qemu-amd64:isar-image-base
 
-1. Build the root filesystem image:
+        $ source isar-init-build-env build-i386
+        $ bitbake multiconfig:qemu-i386:isar-image-base
 
-   Build isar base images for QEMU and RPi:
+        $ source isar-init-build-env build-rpi
+        $ bitbake multiconfig:rpi:isar-image-base
 
-        $ bitbake multiconfig:qemuarm:isar-image-base multiconfig:rpi:isar-image-base
+1. Generate the disk image:
 
-   Created images are:
+Install and configure `sudo` as explained in the previous section. Also make sure your system has the following
+Debian packages installed:
 
-        tmp/deploy/images/isar-image-base-qemuarm.ext4.img
-        tmp/deploy/images/isar-image-base.rpi-sdimg
+       grub2
+       grub-efi-amd64-bin
+       grub-efi-ia32-bin
+       gdisk
+
+After the build has finished, use `wic` to generate a disk image, according to the target architecture:
+
+	$ wic create sdimage-efi -o . -e multiconfig:qemu-amd64:isar-image-base
+	$ wic create sdimage-efi -o . -e multiconfig:qemu-i386:isar-image-base
+	$ wic create sdimage-raspberrypi -o . -e multiconfig:rpi:isar-image-base
+
+The path to the generated image will be printed by `wic` once it has been generated.
 
 # Try
 
-To test the QEMU image, run the following command:
+The following commands allow testing the disk images with `qemu`:
 
-        $ start_armhf_vm
+	$ qemu-system-i386 -m 256M -nographic -bios /path/to/ovmf_code_ia32.bin -hda /path/to/sdimage-efi.direct
+	$ qemu-system-x86_64 -m 256M -nographic -bios /path/to/ovmf_code_x64.bin -hda /path/to/sdimage-efi.direct
 
-The default root password is 'root'.
+In order to run the generated images, a compiled version of the Tianocore firmware is required (`ovmf_code_*.bin`):
+
+       https://github.com/tianocore/edk2/tree/3858b4a1ff09d3243fea8d07bd135478237cb8f7
+
+Note that the `ovmf` package in Debian `jessie`/`stretch`/`sid` contains a pre-compiled firmware, but doesn't seem to be recent
+enough to allow ISAR images to be testable under `qemu`.
 
 To test the RPi board, flash the image to an SD card using the insctructions from the official site,
 section "WRITING AN IMAGE TO THE SD CARD":
 
     https://www.raspberrypi.org/documentation/installation/installing-images/README.md
+
+The default root password is 'root'.
 
 # Release Information
 
