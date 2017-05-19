@@ -189,6 +189,7 @@ python __anonymous () {
             # cached
             for task in ["fetch", "unpack", "build", "install"]:
                 d.setVarFlag("do_{}".format(task), "noexec", "1")
+            d.setVar("DEPENDS", "")
 
             import re
             DEPENDS = d.getVar("DEPENDS", True)
