@@ -30,8 +30,9 @@ Isar provides:
 
 ## Getting Started
 
-For demonstration purposes, Isar provides support for two machines:
+For demonstration purposes, Isar provides support for several machines:
  - QEMU ARM
+ - QEMU i386
  - Raspberry Pi 1 Model B
 
 The steps below describe how to build the images provided by default.
@@ -82,15 +83,26 @@ To initialize the `isar` build directory run the following commands:
 ```
 `../build` is the build directory. You may use a different name here.
 
+### Make necessary utilities accessible to the shell
+
+Generating images requires the use of tools usually only accessible as root, export a proper `PATH`
+variable using the following command:
+```
+ $ export PATH="/sbin:${PATH}"
+ ```
+
 ### Build Images
 
 The following command will produce `isar-image-base` images for both machines:
 ```
-$ bitbake multiconfig:qemuarm:isar-image-base multiconfig:rpi:isar-image-base
+$ bitbake multiconfig:qemuarm:isar-image-base \
+    multiconfig:qemui386:isar-image-base \
+    multiconfig:rpi:isar-image-base
 ```
 Created images are:
 ```
 tmp/deploy/images/isar-image-base-qemuarm.ext4.img
+tmp/deploy/images/isar-image-base-qemui386.ext4.img
 tmp/deploy/images/isar-image-base.rpi-sdimg
 ```
 To build just for one target, pass only its name to `bitbake`.
@@ -140,6 +152,7 @@ This filesystem is generated similarly to the `buildchroot` one using the `apt` 
 ### Install Custom Packages
 
 At this stage, Isar populates target filesystem by custom packages that were built in previous stages.
+
 ### Target Image Packaging
 
 Isar can generate various image types, e.g. an ext4 filesystem or a complete SD card image. The list of images to produce is set in configuration file, please refer to image type selection section.
@@ -177,7 +190,7 @@ This file contains variables that will be exported to `bitbake` environment and 
 ## Isar Distro Configuration
 
 In Isar, each machine can use its specific Linux distro to generate `buildchroot` and target filesystem. By default, Isar provides configuration files for the following distros:
- - debian-wheezy
+ - debian-jessie
  - raspbian-stable
 
 User can select appropriate distro for specific machine by setting the following variable in machine configuration file:
