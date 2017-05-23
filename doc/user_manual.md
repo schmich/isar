@@ -33,6 +33,7 @@ Isar provides:
 For demonstration purposes, Isar provides support for several machines:
  - QEMU ARM
  - QEMU i386
+ - QEMU AMD64
  - Raspberry Pi 1 Model B
 
 The steps below describe how to build the images provided by default.
@@ -97,12 +98,14 @@ The following command will produce `isar-image-base` images for both machines:
 ```
 $ bitbake multiconfig:qemuarm:isar-image-base \
     multiconfig:qemui386:isar-image-base \
+    multiconfig:qemuamd64:isar-image-base \
     multiconfig:rpi:isar-image-base
 ```
 Created images are:
 ```
 tmp/deploy/images/isar-image-base-qemuarm.ext4.img
 tmp/deploy/images/isar-image-base-qemui386.ext4.img
+tmp/deploy/images/isar-image-base-qemuamd64.ext4.img
 tmp/deploy/images/isar-image-base.rpi-sdimg
 ```
 To build just for one target, pass only its name to `bitbake`.
