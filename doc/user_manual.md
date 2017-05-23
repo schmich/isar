@@ -194,6 +194,7 @@ This file contains variables that will be exported to `bitbake` environment and 
 
 In Isar, each machine can use its specific Linux distro to generate `buildchroot` and target filesystem. By default, Isar provides configuration files for the following distros:
  - debian-jessie
+ - debian-stretch
  - raspbian-stable
 
 User can select appropriate distro for specific machine by setting the following variable in machine configuration file:
