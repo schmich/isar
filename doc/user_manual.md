@@ -51,6 +51,8 @@ python3
 qemu
 qemu-user-static
 sudo
+reprepro
+e2fsprogs >= 1.42.12
 ```
 Notes:
 * BitBake requires Python 3.4+.
@@ -198,6 +200,10 @@ Isar uses the following configuration files:
 The machine config file defines which distro has to be used for the current machine. `bitbake` includes the respective distro configuration file:
  - conf/distro/${DISTRO}.conf
 
+In order to speed up the generation of images, the debian packages that result from building applications are stored into a Debian repository. The
+configuration file that controls the behavior of this feature (called 'debcaching'), is located in the `meta-isar-bin` layer configuration file:
+ - meta-isar-bin/conf/layer.conf
+
 ### bblayers.conf
 
 This file contains the list of meta layers, where `bitbake` will search for recipes, classes and configuration files. By default, Isar includes the following layers:
@@ -211,6 +217,20 @@ This file contains variables that will be exported to `bitbake` environment and 
  - `BBMULTICONFIG` - The list of the machines to include the respective configuration files. If this option is omitted, user has to manually define the pair `MACHINE`/`DISTRO` for specific target.
  - `IMAGE_INSTALL` - The list of custom packages to build and install to target image, please refer to relative chapter for more information.
  - `BB_NUMBER_THREADS` - The number of `bitbake` jobs that can be run in parallel. Please set this option according your host CPU cores number.
+
+### meta-isar-bin/conf/layer.conf
+
+The options available in this layer configuration file are named as follows:
+
+  - `DEBCACHE_ENABLED` - Enable package caching with '1'
+  - `DEBDISTRONAME` - Codename of the repository created by the caching class
+  - `DEBCACHEDIR` - Path to the caching repository
+  - `DEBCACHEMNT` - Path to the mount point of the repository within the target rootfs, during population
+  - `DEBDBDIR` - Path to the databases used by `reprepro`
+  - `DEBFILESDIR` - Path to the configuration files templates used by `reprepro`
+
+The actual cache (implemented by the repository stored in `DEBCACHEDIR`) can be versioned and shared with other ISAR instances, all other directories
+used by `reprepro` will be generated automatically if they don't exist at runtime.
 
 ---
 
