@@ -9,4 +9,4 @@ SRC_URI = "file://u-boot-rpi-2016.11.tar.gz"
 
 SRC_DIR = "u-boot-2016.11"
 
-inherit dpkg-cross
+inherit dpkg
