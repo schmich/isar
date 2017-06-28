@@ -45,6 +45,9 @@ export LC_ALL=C LANGUAGE=C LANG=C
 #run pre installation script
 /var/lib/dpkg/info/dash.preinst install
 
+# gpg requires /dev/null
+mount -t devtmpfs -o mode=0755,nosuid none /dev
+
 #dpkg --configure -a || apt-get -f install -y
 
 #configuring packages
@@ -53,3 +56,4 @@ mount proc -t proc /proc
 dpkg --configure -a
 apt-get update
 umount /proc
+umount /dev
