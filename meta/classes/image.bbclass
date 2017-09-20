@@ -71,16 +71,6 @@ do_populate() {
                           includedeb ${DEBDISTRONAME} \
                           ${DEPLOY_DIR_DEB}/${p}_*.deb
         done
-
-        sudo mkdir -p ${IMAGE_ROOTFS}/deb
-
-        for p in ${IMAGE_INSTALL}; do
-            sudo cp ${DEPLOY_DIR_DEB}/${p}_*.deb ${IMAGE_ROOTFS}/deb
-        done
-
-        sudo chroot ${IMAGE_ROOTFS} /usr/bin/dpkg -i -R /deb
-
-        sudo rm -rf ${IMAGE_ROOTFS}/deb
     fi
 }
 
