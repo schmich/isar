@@ -20,9 +20,9 @@ dpkg_runbuild() {
 # Wrap the function dpkg_runbuild with the bind mount for buildroot
 do_build() {
     mkdir -p ${BUILDROOT}
-    sudo mount --bind ${WORKDIR} ${BUILDROOT}
+#    sudo mount --bind ${WORKDIR} ${BUILDROOT}
     dpkg_runbuild
-    sudo umount ${BUILDROOT}
+#    sudo umount ${BUILDROOT}
     rm -rf ${BUILDROOT}
 }
 

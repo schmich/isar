@@ -4,11 +4,12 @@
 [General]
 noauth=true
 unpack=true
+ignorenativearch=true
 bootstrap=##DISTRO##
 aptsources=##DISTRO##
 configscript=##CONFIG_SCRIPT##
-setupscript=##SETUP_SCRIPT##
-hookdir=##DIR_HOOKS##
+#setupscript=##SETUP_SCRIPT##
+#hookdir=##DIR_HOOKS##
 
 [##DISTRO##]
 source=##DISTRO_APT_SOURCE##

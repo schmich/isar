@@ -52,16 +52,15 @@ do_build() {
         -e 's|##DIR_HOOKS##|./'"$WORKDIR_REL"'/hooks_multistrap|g' \
            "${WORKDIR}/multistrap.conf.in" > "${WORKDIR}/multistrap.conf"
 
-    install -d -m 555 ${IMAGE_ROOTFS}/proc
-    sudo mount -t proc none ${IMAGE_ROOTFS}/proc
-
     # Create root filesystem
-    sudo multistrap -a ${DISTRO_ARCH} -d "${BUILDCHROOT_DIR}" -f "${WORKDIR}/multistrap.conf"
+    PROOT_NO_SECCOMP=1 proot -0 multistrap -a ${DISTRO_ARCH} -d "${BUILDCHROOT_DIR}" -f "${WORKDIR}/multistrap.conf"
 
     # Install package builder script
-    sudo install -m 755 ${WORKDIR}/build.sh ${BUILDCHROOT_DIR}
+    install -m 755 ${WORKDIR}/build.sh ${BUILDCHROOT_DIR}
+
+    # Install resolv.conf to target
+    cp /etc/resolv.conf ${BUILDCHROOT_DIR}/etc
 
     # Configure root filesystem
-    sudo chroot ${BUILDCHROOT_DIR} /configscript.sh
-    sudo umount ${IMAGE_ROOTFS}/proc
+    PROOT_NO_SECCOMP=1 proot -0 ${PROOT_QEMU_ARGS} -b /proc -b /dev -r ${BUILDCHROOT_DIR} /configscript.sh
 }

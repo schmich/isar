@@ -5,5 +5,5 @@ inherit dpkg-base
 
 # Build package from sources using build script
 dpkg_runbuild() {
-    sudo chroot ${BUILDCHROOT_DIR} /build.sh ${PP}/${SRC_DIR}
+    PROOT_NO_SECCOMP=1 proot -0 ${PROOT_QEMU_ARGS} -b /proc -b /dev -b ${WORKDIR}:${PP} -r ${BUILDCHROOT_DIR} /build.sh ${PP}/${SRC_DIR}
 }
