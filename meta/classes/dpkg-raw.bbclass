@@ -52,6 +52,10 @@ do_deb_package_conffiles[stamp-extra-info] = "${DISTRO}-${DISTRO_ARCH}"
 addtask deb_package_conffiles after do_deb_package_prepare before do_build
 
 dpkg_runbuild() {
-	sudo chown -R root:root ${D}/DEBIAN/
-	sudo chroot ${BUILDCHROOT_DIR} dpkg-deb --build ${PP}/image ${PP}
+    ${PROOT} -0 \
+             ${PROOT_EXTRA_ARGS} \
+             -b /proc -b /dev \
+             -b ${WORKDIR}:${PP} \
+             -r ${BUILDCHROOT_DIR} \
+             dpkg-deb --build ${PP}/image ${PP}
 }

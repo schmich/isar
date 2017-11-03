@@ -162,3 +162,8 @@ BB_NUMBER_THREADS = "4"
 #
 # Number of attempts to try to get reprepro lock for access to apt cache
 REPREPRO_LOCK_ATTEMPTS = "16"
+
+#
+# Depending on host machine Linux kernel version, proot may require to set
+# additionale variable, so lets use macro for proot command.
+PROOT = "PROOT_NO_SECCOMP=1 proot"

@@ -39,10 +39,9 @@ export LC_ALL=C LANGUAGE=C LANG=C
 #run pre installation script
 /var/lib/dpkg/info/dash.preinst install
 
-# apt-get http method, gpg require /dev/null
-mount -t devtmpfs -o mode=0755,nosuid devtmpfs /dev
+# Disable audit checks: https://stackoverflow.com/questions/25193161/chfn-pam-system-error-intermittently-in-docker-hub-builds
+ln -s -f /bin/true /usr/bin/chfn
 
 #configuring packages
 dpkg --configure -a
 apt-get update
-umount /dev

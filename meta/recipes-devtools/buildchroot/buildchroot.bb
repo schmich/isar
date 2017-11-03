@@ -52,16 +52,12 @@ do_build() {
         -e 's|##DIR_HOOKS##|./'"$WORKDIR_REL"'/hooks_multistrap|g' \
            "${WORKDIR}/multistrap.conf.in" > "${WORKDIR}/multistrap.conf"
 
-    install -d -m 555 ${BUILDCHROOT_DIR}/proc
-    sudo mount -t proc none ${BUILDCHROOT_DIR}/proc
-
     # Create root filesystem
-    sudo multistrap -a ${DISTRO_ARCH} -d "${BUILDCHROOT_DIR}" -f "${WORKDIR}/multistrap.conf"
+    ${PROOT} -0 multistrap -a ${DISTRO_ARCH} -d "${BUILDCHROOT_DIR}" -f "${WORKDIR}/multistrap.conf"
 
     # Install package builder script
-    sudo install -m 755 ${WORKDIR}/build.sh ${BUILDCHROOT_DIR}
+    install -m 755 ${WORKDIR}/build.sh ${BUILDCHROOT_DIR}
 
     # Configure root filesystem
-    sudo chroot ${BUILDCHROOT_DIR} /configscript.sh
-    sudo umount ${BUILDCHROOT_DIR}/proc
+    ${PROOT} -0 ${PROOT_EXTRA_ARGS} -b /proc -b /dev -r ${BUILDCHROOT_DIR} /configscript.sh
 }

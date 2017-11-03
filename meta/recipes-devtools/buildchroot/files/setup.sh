@@ -54,15 +54,8 @@ EOF
     chmod a+x $TARGET/usr/sbin/policy-rc.d
 fi
 
-# Install QEMU emulator to execute ARM binaries
-sudo cp /usr/bin/qemu-arm-static ${TARGET}/usr/bin
-
 # Set hostname
 echo "isar" > $TARGET/etc/hostname
 
-# Create packages build folder
-sudo install -d $TARGET/home/builder
-sudo chmod -R a+rw $TARGET/home/builder
-
 # Install host networking settings
-sudo cp /etc/resolv.conf $TARGET/etc
+cp /etc/resolv.conf $TARGET/etc
