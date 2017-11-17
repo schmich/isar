@@ -4,7 +4,7 @@
 # Copyright (c) 2016-2017 ilbers GmbH
 
 #!/bin/sh
-
+locale
 # Export $PATH to use 'parted' tool
 export PATH=$PATH:/sbin
 
